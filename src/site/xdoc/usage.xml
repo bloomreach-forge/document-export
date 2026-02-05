@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<document>
+  <properties>
+    <title>Using the plugin</title>
+    <subtitle>Using the plugin</subtitle>
+  </properties>
+  <body>
+    <section name="Using the plugin">
+      <subsection name="General">
+        <p>Prior to using the plugin, you need an embargo-enabled user. Please see section <a href="embargo-groups.html">User/groups configuration</a> on how to create one.</p>
+      </subsection>
+      <subsection name="Putting a document under embargo">
+        <p>This is the simplest operation. Open any document, image or asset and select 'Set' from the 'Embargo' menu in the toolbar. This sets the document under the usergroup's specific embargo flag.</p>
+        <img src="images/set-embargo.png" alt="Set embargo"/>
+      </subsection>
+      <subsection name="Removing the embargo from a document">
+        <p>To remove the embargo either select 'Remove' from the menu, or schedule the removal for a later time by selecting 'Schedule Remove Embargo'. The latter will open a dialog allowing you to
+        set the embargo expiration date.</p>
+        <img src="images/remove-embargo.png" alt="Remove embargo"/>
+      </subsection>
+      <subsection name="Cancelling/ Rescheduling the embargo expiration">
+        <p>You can cancel the scheduling of embargo expiration, or reschedule it. To do that you must first have set an expiration shcedule (see paragraph above). Then 2 new options
+        will be available, cancelling the schedule or changing its date.</p>
+        <img src="images/reschedule-embargo.png" alt="Reschedule embargo"/>
+      </subsection>
+      <subsection name="Known limitations">
+        <ul>
+          <li>There are cases where a non-embargo user may accidentally overwrite content created by an embargo user. For example, if an image is under embargo and linked to a document, then a non-embargo user cannot see the linked image and can overwrite it in the document.</li>
+          <li>History plugin may show some embargo related information. The Hippo log and version history do not take into account the embargo status of a document.</li>
+          <li>Workflows for an image or asset that is placed under embargo are limited. The only options that are available is the website actions and the embargo button.</li>
+          <li>Faceted Navigation may show unauthorized, embargo documents. There is a workaround for this, just add a filter to the faceted navigation configuration to exclude documents under embargo.</li>
+        </ul>
+      </subsection>
+    </section>
+  </body>
+</document>

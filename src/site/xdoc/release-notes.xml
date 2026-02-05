@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<document>
+  <properties>
+    <title>Release Notes</title>
+  </properties>
+  <body>
+    <section name="Release Notes">
+      <subsection name="8.0.0">
+        <p class="smallinfo">
+          Released: 24 Sep 2024
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/FORGE-522">FORGE-522</a><br/>
+            Upgrade to Bloomreach Experience Manager 16: build with Java 16, use Wicket 10, redo the demo.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="7.0.2">
+        <p class="smallinfo">
+          Released: 15 Jan 2024
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/FORGE-510">FORGE-510</a><br/>
+            Improve the embargo set by adding support for multi select for non admin users that belong to more than one embargo groups.
+          </li>
+          <li>
+            <a href="https://issues.onehippo.com/browse/FORGE-452">FORGE-452</a><br/>
+            Improve existing security domains for live and preview documents by excluding also the embargo:handle
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="7.0.0">
+        <p class="smallinfo">
+          Released: 6 May 2022
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-421">HIPFORGE-421</a><br/>
+            Upgrade to Bloomreach Experience Manager 15: build with Java 11, use Wicket 9, redo the demo.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="6.0.0">
+        <p class="smallinfo">
+          Released: 15 October 2020
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-378">HIPFORGE-378</a><br/>
+            Upgrade to Bloomreach Experience Manager 14.
+          </li>
+          <li>
+            Embargo user indication (left menu red background) has been removed.
+          </li>
+          <li>Module configuration node is now at
+            <code>/hippo:configuration/hippo:modules/embargo-workflow-module</code>
+            (the node used to be named <code>embargo-workflow-events-processing-module.xml</code>).
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="5.1.0">
+        <p class="smallinfo">
+          Released: 20 January 2020
+        </p>
+        <ul>
+          <li>EmbargoWorkflowEventsProcessingModule#getUser was broken in 5.0.0, breaking the functionality regarding
+            automatically putting embargo on documents.</li>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-331">HIPFORGE-331</a><br/>
+            Prevent false activity stream items and loggings about setting embargo.
+          </li>
+          <li>
+            Slight changes in the mark-up of the activity items, placing words 'handle' and 'document' outside the bold area.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="5.0.0">
+        <p class="smallinfo">
+          Released: 4 November 2019
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-326">HIPFORGE-326</a><br/>
+            Upgrade to Bloomreach Experience Manager 13.
+          </li>
+          <li>
+            Restructure the Maven modules; change the artifacts’ groupId to 'org.bloomreach.forge.embargo' (so renaming
+            hippo to bloomreach) and simplify the artifactIds. This requires to revisit <a href="install.html">the
+            installation page</a> when upgrading.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="4.1.0">
+        <p class="smallinfo">
+          Released: 20 January 2020
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-331">HIPFORGE-331</a><br/>
+            Prevent false activity stream items and loggings about setting embargo.
+          </li>
+        </ul>
+      </subsection>
+       <subsection name="4.0.0">
+        <p class="smallinfo">
+          Released: 19 October 2018
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-193">HIPFORGE-193</a><br/>
+            Upgrade to Hippo 12.
+          </li>
+          <li>
+            UI improvements in the document set/remove Embargo dialogs.
+          </li>
+          <li>
+            Fix a bug where the lock icon didn't show in the "Embargo | Set" menu item for embargo-editors and embargo-authors.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="3.1.0">
+        <p class="smallinfo">
+          Released: 13 Sep 2018
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-185">HIPFORGE-185</a><br/>
+            Remove five non-functional configurations at /hippo:configuration/hippo:workflows/events-embargo-** plus the
+            related Java classes (technical debt).
+          </li>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-186">HIPFORGE-186</a><br/>
+            In the module listening for events as 'embargo user', add the embargo:document mixin at later stage to the
+            document variants, avoiding errors related to disappearing mixins (probably race condition).
+          </li>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-189">HIPFORGE-189</a><br/>
+            Mark the EmbargoWorkflowEventsProcessingModule at /hippo:configuration/hippo:modules/embargo-workflow-events-processing-module.xml
+            as 'cmsonly' to prevent  errors on site-only nodes.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="3.0.2">
+        <p class="smallinfo">
+          Released: 22 Januari 2018
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-110">HIPFORGE-110</a><br/>
+            Remove embargo trigger node from (deleted) documents in attic.
+          </li>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-133">HIPFORGE-132</a><br/>
+            While getting the document variants from a handle, do not check for mix:referenceble because it can be
+            missing from draft variant, causing embargo mixins to be present on draft only.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="3.0.1">
+        <p class="smallinfo">
+          Released: 17 Januari 2017
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1421">HIPPLUG-1421</a><br/>
+            Use the Hippo 11 style translations for the Embargo workflow name.<br/>
+            <span class="note">Note:</span> when deploying this version, make sure the repository bootstraps by setting
+            <code>-Drepo.bootstrap=true</code>.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="3.0.0">
+        <p class="smallinfo">
+          Released: 28 November 2016
+        </p>
+        <ul>
+          <li>
+            Upgraded for Hippo 11.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="2.1.8">
+        <p class="smallinfo">
+          Released: 24 July 2018
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-186">HIPFORGE-186</a><br/>
+            In the module listening for events as 'embargo user', add the embargo:document mixin at later stage to the
+            document variants, avoiding errors related to disappearing mixins (probably race condition).
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="2.1.7">
+        <p class="smallinfo">
+          Released: 6 June 2018
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-168">HIPFORGE-168</a><br/>
+            Back porting both <a href="https://issues.onehippo.com/browse/HIPFORGE-110">HIPFORGE-110</a> and
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-132">HIPFORGE-132</a> from the Hippo 11 version to the Hippo 10.2 version.<br/>
+            - Remove embargo trigger node from (deleted) documents in attic.<br/>
+            - While getting the document variants from a handle, do not check for mix:referenceble because it can be
+            missing from draft variant, causing embargo mixins to be present on draft only.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="2.1.6">
+        <p class="smallinfo">
+          Released: 2 June 2016
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1294">HIPPLUG-1294</a><br/>
+            	Changed columns width (columns were too wide).
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="2.1.5">
+        <p class="smallinfo">
+          Released: 6 April 2016
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1281">HIPPLUG-1281</a> follow-up<br/>
+            Add wait time before adding embargo workflow, by default 500 millis, configurable by Long property 'waitTime'
+            at <code>/hippo:configuration/hippo:modules/embargo-workflow-events-processing-module.xml</code>.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="2.1.4">
+        <p class="smallinfo">
+          Released: 1 April 2016
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1281">HIPPLUG-1281</a><br/>
+            Added listener to put newly created documents under embargo.</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1282">HIPPLUG-1282</a><br/>
+            Images and assets are now under embargo when created by an embargo user.</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1283">HIPPLUG-1283</a><br/>
+            CSS fix for list view of documents.</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1284">HIPPLUG-1284</a><br/>
+            Embargo documents excluded from number of search results.</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1285">HIPPLUG-1285</a>
+            Show embargo end date in the CMS.</li>
+          <li>Added version to cnd reload so the cnd is actually reloaded.</li>
+        </ul>
+      </subsection>
+      <subsection name="2.1.0">
+        <p class="smallinfo">
+          Released: 1 March 2016
+        </p>
+        <ul>
+          <li>Upgrade to be compatible with Hippo 10.1.</li>
+        </ul>
+      </subsection>
+      <subsection name="1.03.00">
+        <p class="smallinfo">
+          Released: 10 February 2016
+        </p>
+        <ul>
+          <li>Upgrade to be compatible with Hippo 7.9.</li>
+        </ul>
+      </subsection>
+      <subsection name="1.02.00">
+        <p class="smallinfo">
+          Released: 2 February 2014
+        </p>
+        <ul>
+          <li>Admin user can now set documents under embargo. A dialog is shown so he can select which groups to use.</li>
+          <li>Upgrade to be compatible with Hippo 7.8.</li>
+        </ul>
+      </subsection>
+      <subsection name="1.01.06">
+        <p class="smallinfo">
+          Released: 16 August 2013
+        </p>
+        <ul>
+          <li>Resolved issue with content items losing the embargo status when being copied.</li>
+          <li>The embargo workflow is from now on only shown if a user has the <i>hippo:author</i> privileges for a document.</li>
+          <li>It was not possible to change the date/time of the scheduled embargo removal even if the date/time was still in the future.</li>
+          <li>Increased code coverage.</li>
+        </ul>
+        <p>For systems that used version 1.01.05 there is an updater module available which will update the plugin configuration to the latest version.</p>
+      </subsection>
+      <subsection name="1.01.05">
+        <ul>
+          <li>Embargo workflow event may be fired from a non-cms context, so we don't call the embargo feature from a remote (RMI) application.</li>
+          <li>Increased code coverage</li>
+        </ul>
+      </subsection>
+      <subsection name="1.01.02">
+        <ul>
+          <li>New content created by an embargo enabled user, is automatically put under embargo.</li>
+          <li>Rescheduling/ cancelling embargo schedule.</li>
+          <li>Embargo content does not appear anywhere for non embargo users/ or in site.</li>
+          <li>i18n for properties.</li>
+          <li>Documentation/ licensing.</li>
+        </ul>
+      </subsection>
+      <subsection name="1.01.01">
+        <ul>
+          <li>Initial commit.</li>
+          <li>Set/remove embargo features.</li>
+          <li>Embargo domain declaration.</li>
+          <li>Workflow in place.</li>
+          <li>Admin can create more embargo groups/ users.</li>
+          <li>Embargo for images and assets additionally to documents.</li>
+        </ul>
+      </subsection>
+    </section>
+  </body>
+</document>

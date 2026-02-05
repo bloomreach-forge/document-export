@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<document>
+  <properties>
+    <title>Screenshots</title>
+  </properties>
+  <body>
+    <section name="Screenshots">
+      <subsection name="Set embargo">
+        <p>This is the drop down menu used to set a document under embargo:</p>
+        <img src="images/set-embargo.png" alt="Set embargo"/>
+        <p>By default, if there are multiple groups for embargo and the user belongs to the admin group you get a dialog to select the desired groups:</p>
+        <img src="images/groups-dialog.png" alt="Choose embargo groups"/>
+        <p>If the user doesn't belong to the admin group but belongs to more than one embargo groups upon document embargo all these groups get assigned. </p>
+        <p>Since version 7.0.1 a boolean property multiSelectEnabled is supported on the node /hippo:configuration/hippo:workflows/embargo/embargo-workflow/frontend:renderer
+          setting it to true will result to a selection dialogue for non-admin users that belong to multiple embargo groups. Similar to the admin selection but only for the groups they belong to.</p>
+      </subsection>
+      <subsection name="Remove embargo">
+        <p>This is the drop down menu used to remove the embargo from a document. It can be done immediately or it can be scheduled:</p>
+        <img src="images/remove-embargo.png" alt="Remove embargo"/>
+        <p>You can specify the date and time to schedule the removal of the embargo:</p>
+        <img src="images/embargo-schedule-dialog.png" alt="Set schedule time"/>
+      </subsection>
+      <subsection name="Reschedule/cancel schedule">
+        <p>These options allow for re-scheduling the removal of the embargo from a document or cancelling the existing schedule:</p>
+        <img src="images/reschedule-embargo.png" alt="Reschedule embargo"/>
+      </subsection>
+      <subsection name="Embargo columns">
+        <p>A document under embargo is clearly visible along with the embargo expiration date:</p>
+        <img src="images/embargo-columns.png" alt="Embargo columns"/>
+      </subsection>
+      <subsection name="Embargo domain">
+        <p>The embargo security domain can be used to enable groups with the embargo privilege:</p>
+        <img src="images/embargo-domain.png" alt="Embargo domain"/>
+      </subsection>
+      <subsection name="Embargo domain details">
+        <p>Use this page to add groups to the embargo domain, thus enabling the embargo privilege:</p>
+        <img src="images/embargo-domain-details.png" alt="Embargo domain details"/>
+      </subsection>
+      <subsection name="Enabling embargo for a user">
+        <p>Adding a new user under an embargo group</p>
+        <img src="images/new-embargo-user.png" alt="new embargo user"/>
+      </subsection>
+    </section>
+  </body>
+</document>

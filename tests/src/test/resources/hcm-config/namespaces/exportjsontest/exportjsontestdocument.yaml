@@ -1,0 +1,58 @@
+definitions:
+  config:
+    /hippo:namespaces/exportjsontest/document:
+      jcr:primaryType: hipposysedit:templatetype
+      jcr:mixinTypes: ['mix:referenceable', 'editor:editable']
+      /hipposysedit:nodetype:
+        jcr:primaryType: hippo:handle
+        /hipposysedit:nodetype:
+          jcr:primaryType: hipposysedit:nodetype
+          jcr:mixinTypes: ['hipposysedit:remodel', 'hippo:harddocument']
+          hipposysedit:node: true
+          hipposysedit:uri: http://forge.onehippo.org/jcr/exportjsontest/nt/1.0
+          /title:
+            jcr:primaryType: hipposysedit:field
+            hipposysedit:mandatory: false
+            hipposysedit:multiple: false
+            hipposysedit:ordered: false
+            hipposysedit:path: exportjsontest:title
+            hipposysedit:primary: false
+            hipposysedit:type: String
+      /hipposysedit:prototypes:
+        jcr:primaryType: hipposysedit:prototypeset
+        /hipposysedit:prototype:
+          jcr:primaryType: exportjsontest:document
+          jcr:mixinTypes: ['mix:referenceable', 'hippo:harddocument']
+          exportjsontest:title: ''
+          hippo:availability: []
+          hippostd:state: draft
+          hippostdpubwf:createdBy: admin
+          hippostdpubwf:creationDate: 2010-01-21T12:34:11.055+02:00
+          hippostdpubwf:lastModificationDate: 2010-01-22T12:34:11.055+02:00
+          hippostdpubwf:lastModifiedBy: admin
+      /editor:templates:
+        jcr:primaryType: editor:templateset
+        /_default_:
+          jcr:primaryType: frontend:plugincluster
+          frontend:properties: [mode]
+          frontend:references: [wicket.model, engine, model.compareTo, validator.id]
+          frontend:services: [wicket.id, validator.id]
+          type: exportjsontest:document
+          /root:
+            jcr:primaryType: frontend:plugin
+            item: ${cluster.id}.field
+            plugin.class: org.hippoecm.frontend.service.render.ListViewPlugin
+            wicket.id: ${wicket.id}
+          /title:
+            jcr:primaryType: frontend:plugin
+            caption: Title
+            engine: ${engine}
+            field: title
+            mode: ${mode}
+            model.compareTo: ${model.compareTo}
+            plugin.class: org.hippoecm.frontend.editor.plugins.field.PropertyFieldPlugin
+            validator.id: ${validator.id}
+            wicket.id: ${cluster.id}.field
+            wicket.model: ${wicket.model}
+            /cluster.options:
+              jcr:primaryType: frontend:pluginconfig

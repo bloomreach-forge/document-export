@@ -1,0 +1,24 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:update/hippo:registry:
+      /Upgrade-EmbargoPlugin-v1_02_00:
+        jcr:primaryType: hipposys:updaterinfo
+        hipposys:batchsize: 10
+        hipposys:dryrun: false
+        hipposys:query: //element(*,rep:root)
+        hipposys:script: "package org.hippoecm.frontend.plugins.cms.dev.updater\n\n\
+          \        import org.onehippo.repository.update.BaseNodeUpdateVisitor\n \
+          \       import javax.jcr.Node\n\n        class UpdaterTemplate extends BaseNodeUpdateVisitor\
+          \ {\n\n          boolean doUpdate(Node node) {\n            if(node.hasNode(\"\
+          hippo:configuration/hippo:domains/everywhere-siteusers\")){\n          \
+          \    Node embargoDomainNode = node.getNode(\"hippo:configuration/hippo:domains/everywhere-siteusers\"\
+          )\n              embargoDomainNode.remove();\n            }\n          \
+          \  if(node.hasNode(\"hippo:configuration/hippo:initialize/domains-everywhere-siteusers\"\
+          )) {\n              node.getNode(\"hippo:configuration/hippo:initialize/domains-everywhere-siteusers\"\
+          ).remove();\n            }\n            if(node.hasNode(\"hippo:configuration/hippo:initialize/domains-everywhere-remove-siteusers\"\
+          )) {\n              node.getNode(\"hippo:configuration/hippo:initialize/domains-everywhere-remove-siteusers\"\
+          ).remove();\n            }\n            return false\n          }\n\n  \
+          \        boolean undoUpdate(Node node) {\n            throw new UnsupportedOperationException('Updater\
+          \ does not implement undoUpdate method')\n          }\n\n        }\n   \
+          \   "
+        hipposys:throttle: 1000

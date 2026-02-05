@@ -1,0 +1,55 @@
+/content/documents/exportjsondemo:
+  jcr:primaryType: hippostd:folder
+  jcr:mixinTypes: ['hippo:named', 'hippotranslation:translated', 'mix:referenceable']
+  hippo:name: Bloomreach Export JSON Plugin Demo
+  hippostd:foldertype: [new-translated-folder, new-document]
+  hippotranslation:id: 996bcac5-86cf-49b5-a7a3-16a74863e814
+  hippotranslation:locale: en
+  /demo:
+    jcr:primaryType: hippo:handle
+    jcr:mixinTypes: ['hippo:versionInfo', 'mix:referenceable']
+    jcr:uuid: a95b5ee0-85f6-4cad-a468-23b6547fff91
+    hippo:versionHistory: 6746475d-8a80-417d-aed8-9a39bdb49479
+    /demo[1]:
+      jcr:primaryType: exportjsontest:document
+      jcr:mixinTypes: ['mix:referenceable']
+      jcr:uuid: 5ac62264-648d-439b-9aa0-521b847ab9ee
+      exportjsontest:title: Demo
+      hippo:availability: []
+      hippostd:retainable: false
+      hippostd:state: draft
+      hippostdpubwf:createdBy: admin
+      hippostdpubwf:creationDate: 2020-10-13T10:56:38.645+02:00
+      hippostdpubwf:lastModificationDate: 2020-10-13T10:56:38.646+02:00
+      hippostdpubwf:lastModifiedBy: admin
+      hippotranslation:id: 11c406b4-41d0-4efa-8c6e-a64f6a363559
+      hippotranslation:locale: en
+    /demo[2]:
+      jcr:primaryType: exportjsontest:document
+      jcr:mixinTypes: ['mix:referenceable', 'mix:versionable']
+      jcr:uuid: e31210e8-c72f-40e8-b0c0-2611d4b663df
+      exportjsontest:title: Demo
+      hippo:availability: [preview]
+      hippostd:retainable: false
+      hippostd:state: unpublished
+      hippostdpubwf:createdBy: admin
+      hippostdpubwf:creationDate: 2020-10-13T10:56:38.645+02:00
+      hippostdpubwf:lastModificationDate: 2020-10-13T10:56:45.839+02:00
+      hippostdpubwf:lastModifiedBy: admin
+      hippotranslation:id: 11c406b4-41d0-4efa-8c6e-a64f6a363559
+      hippotranslation:locale: en
+    /demo[3]:
+      jcr:primaryType: exportjsontest:document
+      jcr:mixinTypes: ['mix:referenceable']
+      jcr:uuid: f501677f-3c69-48af-b8b9-928a3b2da464
+      exportjsontest:title: Demo
+      hippo:availability: [live]
+      hippostd:retainable: false
+      hippostd:state: published
+      hippostdpubwf:createdBy: admin
+      hippostdpubwf:creationDate: 2020-10-13T10:56:38.645+02:00
+      hippostdpubwf:lastModificationDate: 2020-10-13T10:56:45.839+02:00
+      hippostdpubwf:lastModifiedBy: admin
+      hippostdpubwf:publicationDate: 2020-10-13T10:56:48.285+02:00
+      hippotranslation:id: 11c406b4-41d0-4efa-8c6e-a64f6a363559
+      hippotranslation:locale: en

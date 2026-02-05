@@ -1,0 +1,7 @@
+group:
+  name: bloomreach-forge
+  after: hippo-cms
+project: exportjson
+module:
+  name: exportjsontest-repository-data-application
+  after: exportjson-repository-config-application

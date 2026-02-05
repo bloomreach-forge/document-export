@@ -1,0 +1,47 @@
+/* Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com) */
+
+.message {
+    margin-bottom: 20px;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+.checkbox {
+    margin-bottom: 12px;
+    margin-left: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.checkbox label {
+    display: inline;
+    margin-left: 0;
+    cursor: pointer;
+}
+
+.button {
+    display: inline-block;
+    margin-left: 25px;
+    gap: 10px;
+}
+
+.button a {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+}
+
+.button a:hover {
+    background-color: #0056b3;
+}

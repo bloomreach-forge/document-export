@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:head>
+  <wicket:link>
+    <link rel="stylesheet" type="text/css" href="ExportPdfDialog.css"/>
+  </wicket:link>
+</wicket:head>
+<body>
+<wicket:extend>
+    <p wicket:id="message" class="message"></p>
+    <div class="form-group">
+        <label for="pageSize">Page Size:</label>
+        <select wicket:id="pageSize" id="pageSize"></select>
+    </div>
+    <div class="form-group">
+        <label>Orientation:</label>
+        <div class="radio-group">
+            <span wicket:id="orientation"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="fontSize">Font Size:</label>
+        <select wicket:id="fontSize" id="fontSize"></select>
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" wicket:id="includeMetadata" id="includeMetadata" />
+        <label for="includeMetadata">Include document metadata</label>
+    </div>
+    <div class="button">
+        <a wicket:id="downloadButton">Download PDF</a>
+    </div>
+</wicket:extend>
+</body>
+</html>

@@ -1,0 +1,10 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:translations/hippo:workflows:
+      jcr:primaryType: hipposys:resourcebundles
+      /en:
+        jcr:primaryType: hipposys:resourcebundle
+        exportjson: Export
+      /nl:
+        jcr:primaryType: hipposys:resourcebundle
+        exportjson: Exporteren

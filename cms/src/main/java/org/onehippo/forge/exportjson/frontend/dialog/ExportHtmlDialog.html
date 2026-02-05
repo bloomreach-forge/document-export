@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:head>
+  <wicket:link>
+    <link rel="stylesheet" type="text/css" href="ExportHtmlDialog.css"/>
+  </wicket:link>
+</wicket:head>
+<body>
+<wicket:extend>
+    <p wicket:id="message" class="message"></p>
+    <div class="checkbox">
+        <input type="checkbox" wicket:id="includeMetadata" id="includeMetadata" />
+        <label for="includeMetadata">Include document metadata</label>
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" wicket:id="includeStyles" id="includeStyles" />
+        <label for="includeStyles">Include CSS styling</label>
+    </div>
+    <div class="button">
+        <a wicket:id="downloadButton">Download HTML</a>
+    </div>
+</wicket:extend>
+</body>
+</html>

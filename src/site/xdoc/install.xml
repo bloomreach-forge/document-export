@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<document>
+  <properties>
+    <title>How to install embargo plugin</title>
+    <subtitle>Document on how to install the embargo plugin</subtitle>
+  </properties>
+  <body>
+    <section name="How to install the embargo plugin">
+      <subsection name="Prerequisites">
+        <p>
+          These instruction assumes that you have an HST project based on the HST archetype, i.e.
+          a Maven multiproject consisting of at least three submodules: cms, site and content.
+        </p>
+      </subsection>
+      <subsection name="Maven 2 repository">
+        <p>Add this repository to your root pom.xml (if it has not already been defined in a parent pom):</p>
+        <source><![CDATA[
+<repository>
+  <id>bloomreach-forge</id>
+  <name>Bloomreach Forge maven 2 repository.</name>
+  <url>https://maven.bloomreach.com/maven2-forge/</url>
+  <snapshots>
+    <enabled>false</enabled>
+  </snapshots>
+  <releases>
+    <updatePolicy>never</updatePolicy>
+  </releases>
+  <layout>default</layout>
+</repository>]]></source>
+      </subsection>
+
+      <subsection name="Installation in CMS/Repository">
+        <ol>
+          <li>
+            <p>Add this property to the &lt;properties&gt; section of the root pom.xml:
+              <source><![CDATA[<properties>
+  <bloomreach.forge.embargo.version>version</bloomreach.forge.embargo.version>
+</properties>]]></source>
+              Select the correct version for your project, see the <a href="release-notes.html">release notes</a>.
+            </p>
+          </li>
+          <li>
+            <p>Add these two dependency to the pom.xml of your cms module (or cms-dependencies on 13 and up):</p>
+            <source><![CDATA[
+<dependency>
+  <groupId>org.bloomreach.forge.embargo</groupId>
+  <artifactId>embargo-cms</artifactId>
+  <version>${bloomreach.forge.embargo.version}</version>
+</dependency>]]></source>
+            <source><![CDATA[
+<dependency>
+  <groupId>org.bloomreach.forge.embargo</groupId>
+  <artifactId>embargo-repository</artifactId>
+  <version>${bloomreach.forge.embargo.version}</version>
+</dependency>]]></source>
+            <div class="alert alert-info">
+              Note: before version 5.0.0, the artifacts' coordinates were <code>org.onehippo.forge.embargo:embargo-addon-frontend</code>
+              and <code>org.onehippo.forge.embargo:embargo-addon-repository</code>, respectively.
+            </div>
+          </li>
+          <li>
+            <p>
+              Bloomreach 13 and up: add bootstrapping dependency to 'bloomreach-forge'.
+            </p>
+            <p>
+              In the project repository-data/application module (repository-data/application/src/main/resources/hcm-module.yaml),
+              make sure your project configuration is bootstrapped after the group 'bloomreach-forge':
+            </p>
+            <source><![CDATA[
+group:
+  name: ...
+  after: [hippo-cms, bloomreach-forge]
+project: ...
+module: ...]]></source>
+          </li>
+          <li>
+            <p>
+              Rebuild your project. After startup, you should have the embargo workflow and an example embargo-enabled usergroup.
+            </p>
+          </li>
+        </ol>
+      </subsection>
+    </section>
+  </body>
+</document>

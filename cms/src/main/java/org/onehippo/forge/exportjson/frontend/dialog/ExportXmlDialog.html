@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:head>
+  <wicket:link>
+    <link rel="stylesheet" type="text/css" href="ExportXmlDialog.css"/>
+  </wicket:link>
+</wicket:head>
+<body>
+<wicket:extend>
+    <p wicket:id="message" class="message"></p>
+    <div class="checkbox">
+        <input type="checkbox" wicket:id="prettyPrint" id="prettyPrint" />
+        <label for="prettyPrint">Pretty print XML</label>
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" wicket:id="includeNamespaces" id="includeNamespaces" />
+        <label for="includeNamespaces">Include namespace declarations</label>
+    </div>
+    <div class="checkbox">
+        <input type="checkbox" wicket:id="includeMetadata" id="includeMetadata" />
+        <label for="includeMetadata">Include document metadata</label>
+    </div>
+    <div class="button">
+        <a wicket:id="downloadButton">Download XML</a>
+    </div>
+</wicket:extend>
+</body>
+</html>

@@ -1,0 +1,80 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:workflows/exportjson:
+      jcr:primaryType: hipposys:workflowcategory
+      /exportjson-workflow:
+        jcr:primaryType: frontend:workflow
+        hipposys:classname: org.onehippo.forge.exportjson.repository.workflow.ExportJsonWorkflowImpl
+        hipposys:display: Export JSON
+        hipposys:nodetype: hippo:document
+        hipposys:privileges: []
+        /frontend:renderer:
+          jcr:primaryType: frontend:plugin
+          plugin.class: org.onehippo.forge.exportjson.frontend.plugins.ExportJsonPlugin
+        /hipposys:types:
+          jcr:primaryType: hipposys:types
+    /hippo:configuration/hippo:workflows/exportcsv:
+      jcr:primaryType: hipposys:workflowcategory
+      /exportcsv-workflow:
+        jcr:primaryType: frontend:workflow
+        hipposys:classname: org.onehippo.forge.exportjson.repository.workflow.ExportTabularWorkflowImpl
+        hipposys:display: Export CSV
+        hipposys:nodetype: hippo:document
+        hipposys:privileges: []
+        /frontend:renderer:
+          jcr:primaryType: frontend:plugin
+          plugin.class: org.onehippo.forge.exportjson.frontend.plugins.ExportJsonPlugin
+        /hipposys:types:
+          jcr:primaryType: hipposys:types
+    /hippo:configuration/hippo:workflows/exporttsv:
+      jcr:primaryType: hipposys:workflowcategory
+      /exporttsv-workflow:
+        jcr:primaryType: frontend:workflow
+        hipposys:classname: org.onehippo.forge.exportjson.repository.workflow.ExportTabularWorkflowImpl
+        hipposys:display: Export TSV
+        hipposys:nodetype: hippo:document
+        hipposys:privileges: []
+        /frontend:renderer:
+          jcr:primaryType: frontend:plugin
+          plugin.class: org.onehippo.forge.exportjson.frontend.plugins.ExportJsonPlugin
+        /hipposys:types:
+          jcr:primaryType: hipposys:types
+    /hippo:configuration/hippo:workflows/exportxml:
+      jcr:primaryType: hipposys:workflowcategory
+      /exportxml-workflow:
+        jcr:primaryType: frontend:workflow
+        hipposys:classname: org.onehippo.forge.exportjson.repository.workflow.ExportXmlWorkflowImpl
+        hipposys:display: Export XML
+        hipposys:nodetype: hippo:document
+        hipposys:privileges: []
+        /frontend:renderer:
+          jcr:primaryType: frontend:plugin
+          plugin.class: org.onehippo.forge.exportjson.frontend.plugins.ExportJsonPlugin
+        /hipposys:types:
+          jcr:primaryType: hipposys:types
+    /hippo:configuration/hippo:workflows/exportpdf:
+      jcr:primaryType: hipposys:workflowcategory
+      /exportpdf-workflow:
+        jcr:primaryType: frontend:workflow
+        hipposys:classname: org.onehippo.forge.exportjson.repository.workflow.ExportPdfWorkflowImpl
+        hipposys:display: Export PDF
+        hipposys:nodetype: hippo:document
+        hipposys:privileges: []
+        /frontend:renderer:
+          jcr:primaryType: frontend:plugin
+          plugin.class: org.onehippo.forge.exportjson.frontend.plugins.ExportJsonPlugin
+        /hipposys:types:
+          jcr:primaryType: hipposys:types
+    /hippo:configuration/hippo:workflows/exporthtml:
+      jcr:primaryType: hipposys:workflowcategory
+      /exporthtml-workflow:
+        jcr:primaryType: frontend:workflow
+        hipposys:classname: org.onehippo.forge.exportjson.repository.workflow.ExportHtmlWorkflowImpl
+        hipposys:display: Export HTML
+        hipposys:nodetype: hippo:document
+        hipposys:privileges: []
+        /frontend:renderer:
+          jcr:primaryType: frontend:plugin
+          plugin.class: org.onehippo.forge.exportjson.frontend.plugins.ExportJsonPlugin
+        /hipposys:types:
+          jcr:primaryType: hipposys:types

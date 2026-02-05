@@ -1,0 +1,16 @@
+definitions:
+  namespace:
+    exportjsontest:
+      uri: http://forge.onehippo.org/jcr/exportjsontest/nt/1.0
+      cnd: namespaces/exportjsontest.cnd
+  config:
+    /hippo:configuration/hippo:groups/editor:
+      hipposys:members:
+        operation: add
+        type: string
+        value: [editor]
+    /hippo:configuration/hippo:groups/author:
+      hipposys:members:
+        operation: add
+        type: string
+        value: []
