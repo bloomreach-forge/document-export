@@ -60,6 +60,19 @@
       <artifactId>hippo-cms-api</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.onehippo.cms7</groupId>
+      <artifactId>hippo-addon-advanced-search-frontend</artifactId>
+      <type>pom</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-search-service-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

@@ -1,0 +1,7 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:frontend/cms/cms-advanced-search/bulkExport:
+      jcr:primaryType: frontend:plugin
+      plugin.class: org.onehippo.forge.exportjson.frontend.plugins.BulkExportSearchPlugin
+      wicket.model: ${model.selected}
+      wicket.id: ${search.extensions}
