@@ -1,0 +1,129 @@
+<!--
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<html xmlns:wicket="http://wicket.apache.org/">
+<wicket:head>
+    <style>
+        .bulk-export-toolbar-btn {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: #0093d0;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid #0082b8;
+            line-height: 1.4;
+            vertical-align: middle;
+            margin: 0 8px;
+            white-space: nowrap;
+        }
+        .bulk-export-toolbar-btn:hover {
+            background-color: #0082b8;
+            color: #ffffff !important;
+        }
+        .bulk-export-toolbar-btn.bxe-disabled {
+            background-color: #b0cfe0;
+            border-color: #9dbfd0;
+            color: #ffffff !important;
+            cursor: not-allowed;
+            opacity: 0.65;
+            pointer-events: none;
+        }
+    </style>
+    <script>
+        (function () {
+            /**
+             * Moves the export button into the search-box-wrapper (after the Clear button).
+             *
+             * On each Wicket AJAX re-render, the plugin panel is refreshed in the left slot,
+             * producing a fresh <button> element with the correct server-side disabled state.
+             * A stale copy of the button may already be in the wrapper from the previous render.
+             *
+             * Strategy: always look for a button INSIDE the left-panel slot (`.hippo-advanced-search-extension`).
+             * If one is found there, it is the fresh server-rendered button — remove any stale button
+             * from the wrapper, then move the fresh one in.
+             */
+            function moveBtn() {
+                var wrapper = document.querySelector('.search-box-wrapper');
+                if (!wrapper) { return false; }
+
+                // Fresh button in the left panel (needs to be moved)?
+                var freshBtn = document.querySelector('.hippo-advanced-search-extension .bulk-export-toolbar-btn');
+                if (freshBtn) {
+                    // Remove stale button from wrapper (previous render's copy)
+                    var stale = wrapper.querySelector('.bulk-export-toolbar-btn');
+                    if (stale) { stale.parentNode.removeChild(stale); }
+
+                    // Move fresh button to wrapper, after the last <button> (the Clear button)
+                    var slot = freshBtn.closest('.hippo-advanced-search-extension');
+                    var buttons = wrapper.querySelectorAll('button');
+                    var anchor = buttons.length ? buttons[buttons.length - 1] : null;
+                    if (anchor) { anchor.parentNode.insertBefore(freshBtn, anchor.nextSibling); }
+                    else { wrapper.appendChild(freshBtn); }
+
+                    // Collapse the now-empty left-panel slot
+                    if (slot) { slot.style.display = 'none'; }
+                    return true;
+                }
+
+                // Button is already in wrapper (correct state) — nothing to do
+                return !!wrapper.querySelector('.bulk-export-toolbar-btn');
+            }
+
+            // Run on every DOM mutation: covers initial render AND every Wicket AJAX re-render.
+            var obs = new MutationObserver(function () { moveBtn(); });
+            obs.observe(document.documentElement, { childList: true, subtree: true });
+            setTimeout(function () { obs.disconnect(); }, 60000);
+
+            moveBtn();
+
+            // ── Button enable/disable via client-side checkbox state ──────────────────
+            // The server-side IObserver may not connect if the service name is scoped.
+            // This JavaScript ensures the button reacts immediately regardless.
+            function syncBtnState() {
+                var btn = document.querySelector('.bulk-export-toolbar-btn');
+                if (!btn) { return; }
+                var hasSelection = !!document.querySelector('input[type="checkbox"]:checked');
+                // Toggle CSS class only — never set the native `disabled` attribute.
+                // Wicket omits the click handler when it renders a disabled AjaxLink,
+                // so the native attribute must stay off for the click to reach the server.
+                if (hasSelection) {
+                    btn.classList.remove('bxe-disabled');
+                } else {
+                    btn.classList.add('bxe-disabled');
+                }
+            }
+
+            // Individual checkbox clicks (fires before AJAX round-trip)
+            document.addEventListener('change', function (e) {
+                if (e.target && e.target.type === 'checkbox') { syncBtnState(); }
+            }, true);
+
+            // Select-all / deselect-all buttons, pagination, etc. — re-sync after AJAX
+            if (window.Wicket && Wicket.Event) {
+                Wicket.Event.subscribe('/ajax/call/complete', syncBtnState);
+            }
+        }());
+    </script>
+</wicket:head>
+<wicket:panel>
+    <button wicket:id="exportResults" type="button" class="bulk-export-toolbar-btn bxe-disabled">
+        <wicket:message key="export-results-label">Export Selected</wicket:message>
+    </button>
+</wicket:panel>
+</html>

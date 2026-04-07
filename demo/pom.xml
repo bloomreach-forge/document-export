@@ -65,6 +65,8 @@
     <!-- ***END temporary override of versions*** -->
     <bloomreach.forge.exportjson.version>${project.version}</bloomreach.forge.exportjson.version>
     <essentials.version>16.0.0</essentials.version>
+    <hippo.addon.advanced.search.version>16.0.0</hippo.addon.advanced.search.version>
+    <pdfbox.version>2.0.29</pdfbox.version>
 
     <development-module-deploy-dir>shared/lib</development-module-deploy-dir>
 
@@ -123,6 +125,24 @@
         <groupId>org.freemarker</groupId>
         <artifactId>freemarker</artifactId>
         <version>${freemarker.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.onehippo.cms7</groupId>
+        <artifactId>hippo-addon-advanced-search-frontend</artifactId>
+        <version>${hippo.addon.advanced.search.version}</version>
+        <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>com.onehippo.cms7</groupId>
+        <artifactId>hippo-addon-advanced-search-repository</artifactId>
+        <version>${hippo.addon.advanced.search.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.pdfbox</groupId>
+        <artifactId>pdfbox</artifactId>
+        <version>${pdfbox.version}</version>
       </dependency>
 
     </dependencies>

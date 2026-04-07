@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:extend>
+    <style>
+        .bxd {
+            min-width: 310px;
+            padding: 2px 0 4px;
+            font-family: inherit;
+        }
+
+        /* ── Doc count banner ─────────────────────────────── */
+        .bxd .bxd-count {
+            margin: 0 0 16px;
+            padding: 8px 12px;
+            background: #eef6fb;
+            border-left: 3px solid #0093d0;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #2a4a5e;
+            line-height: 1.4;
+        }
+
+        /* ── Section label ────────────────────────────────── */
+        .bxd .bxd-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            color: #8a95a0;
+            margin-bottom: 8px;
+            padding-left: 12px;
+        }
+
+        /* ── Format pills ─────────────────────────────────── */
+        .bxd .bxd-format-wrap {
+            margin-bottom: 16px;
+            padding-left: 20px;
+        }
+        .bxd .bxd-format-wrap span {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        /* Hide the actual radio circle */
+        .bxd .bxd-format-wrap input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+        }
+        /* Style the label as a pill */
+        .bxd .bxd-format-wrap label {
+            display: inline-block;
+            padding: 5px 16px;
+            border: 1px solid #c5cdd8;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #444;
+            background: #fff;
+            line-height: 1.5;
+            user-select: none;
+            transition: border-color .12s, background .12s, color .12s;
+        }
+        .bxd .bxd-format-wrap label:hover {
+            border-color: #0093d0;
+            color: #0093d0;
+        }
+        .bxd .bxd-format-wrap input[type="radio"]:checked + label {
+            background: #0093d0;
+            border-color: #0082b8;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* ── Options card ─────────────────────────────────── */
+        .bxd .bxd-card {
+            background: #f7f9fb;
+            border: 1px solid #dde3ea;
+            border-radius: 5px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+        }
+
+        /* ── Checkbox rows ────────────────────────────────── */
+        .bxd .bxd-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .bxd .bxd-check:last-child { margin-bottom: 0; }
+        .bxd .bxd-check label {
+            font-size: 13px;
+            color: #444;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        .bxd .bxd-check input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            flex-shrink: 0;
+            accent-color: #0093d0;
+        }
+
+        /* ── PDF field rows ───────────────────────────────── */
+        .bxd .bxd-field {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .bxd .bxd-field:last-child { margin-bottom: 0; }
+        .bxd .bxd-field > label {
+            min-width: 80px;
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
+        }
+        .bxd .bxd-field select {
+            font-size: 13px;
+            padding: 4px 8px;
+            border: 1px solid #c5cdd8;
+            border-radius: 3px;
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* ── Large-export info notice ─────────────────────── */
+        .bxd .bxd-info {
+            margin: 0 0 14px;
+            padding: 8px 12px;
+            background: #fffbe6;
+            border-left: 3px solid #e6a817;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #5c4400;
+            line-height: 1.5;
+        }
+
+        /* ── PDF cap warning ──────────────────────────────── */
+        .bxd .bxd-warning {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #fff8e1;
+            border-left: 3px solid #f0a500;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #6b4c00;
+            line-height: 1.5;
+        }
+
+        /* ── Orientation inline radio ─────────────────────── */
+        .bxd .bxd-orient input[type="radio"] {
+            margin: 0 4px 0 0;
+            cursor: pointer;
+            accent-color: #0093d0;
+        }
+        .bxd .bxd-orient label {
+            font-size: 13px;
+            color: #444;
+            cursor: pointer;
+            margin-right: 14px;
+        }
+    </style>
+
+    <div class="bxd">
+
+        <p wicket:id="documentCount" class="bxd-count"></p>
+
+        <!-- Large-export notice (shown when doc count hits the 500 cap) -->
+        <div wicket:id="largeExportNotice" class="bxd-info">
+            Exporting 500+ documents at once may be slow and memory-intensive.
+            For large-scale content migration, consider the
+            <strong>EXIM plugin</strong> instead.
+        </div>
+
+        <span class="bxd-label">Format</span>
+        <div class="bxd-format-wrap">
+            <span wicket:id="format"></span>
+        </div>
+
+        <!-- CSV / TSV options -->
+        <div wicket:id="csvTsvOptions" class="bxd-card">
+            <div class="bxd-check">
+                <input type="checkbox" wicket:id="includeHeaders" id="includeHeaders"/>
+                <label for="includeHeaders">Include header row</label>
+            </div>
+            <div class="bxd-check">
+                <input type="checkbox" wicket:id="quoteAll" id="quoteAll"/>
+                <label for="quoteAll">Quote all values</label>
+            </div>
+            <div class="bxd-check">
+                <input type="checkbox" wicket:id="zipTabular" id="zipTabular"/>
+                <label for="zipTabular">Export as individual files (ZIP)</label>
+            </div>
+        </div>
+
+        <!-- PDF options -->
+        <div wicket:id="pdfOptions" class="bxd-card">
+            <div class="bxd-field">
+                <label for="pageSize">Page size</label>
+                <select wicket:id="pageSize" id="pageSize"></select>
+            </div>
+            <div class="bxd-field">
+                <label>Orientation</label>
+                <span class="bxd-orient" wicket:id="orientation"></span>
+            </div>
+            <div class="bxd-field">
+                <label for="fontSize">Font size</label>
+                <select wicket:id="fontSize" id="fontSize"></select>
+            </div>
+        </div>
+
+        <!-- Metadata option (json / xml / html / pdf) -->
+        <div wicket:id="metadataOption" class="bxd-card">
+            <div class="bxd-check">
+                <input type="checkbox" wicket:id="includeMetadata" id="includeMetadata"/>
+                <label for="includeMetadata">Include document metadata</label>
+            </div>
+        </div>
+
+        <!-- PDF cap warning (shown when PDF selected and count > MAX_PDF_DOCUMENTS) -->
+        <div wicket:id="pdfCapWarning" class="bxd-warning">
+            <span wicket:id="pdfCapMessage"></span>
+        </div>
+
+    </div>
+</wicket:extend>
+</body>
+</html>
