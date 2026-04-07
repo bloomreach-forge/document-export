@@ -24,6 +24,8 @@ package org.onehippo.forge.exportjson.repository.bulk;
  * @param includeHeaders whether to include a header row in CSV/TSV output
  * @param quoteAll      whether to quote all values in CSV/TSV output
  * @param includeMetadata whether to include document metadata in PDF/HTML/XML output
+ * @param zipTabular    when true, CSV/TSV export produces a ZIP of individual per-document
+ *                      files instead of a single merged file
  */
 public record BulkExportOptions(
         String pageSize,
@@ -31,9 +33,10 @@ public record BulkExportOptions(
         String fontSize,
         boolean includeHeaders,
         boolean quoteAll,
-        boolean includeMetadata
+        boolean includeMetadata,
+        boolean zipTabular
 ) {
     public static BulkExportOptions defaults() {
-        return new BulkExportOptions("A4", "portrait", "medium", true, false, true);
+        return new BulkExportOptions("A4", "portrait", "medium", true, false, true, false);
     }
 }

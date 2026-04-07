@@ -57,6 +57,7 @@ public class BulkExportDialog extends AbstractDialog<String> {
     private boolean includeHeaders = true;
     private boolean quoteAll = false;
     private boolean includeMetadata = true;
+    private boolean zipTabular = false;
 
     private final String downloadUrl;
     private final int documentCount;
@@ -87,6 +88,9 @@ public class BulkExportDialog extends AbstractDialog<String> {
         csvTsvOptions.add(new AjaxCheckBox("quoteAll", new PropertyModel<>(this, "quoteAll")) {
             @Override protected void onUpdate(final AjaxRequestTarget t) { }
         });
+        csvTsvOptions.add(new AjaxCheckBox("zipTabular", new PropertyModel<>(this, "zipTabular")) {
+            @Override protected void onUpdate(final AjaxRequestTarget t) { }
+        });
 
         final WebMarkupContainer pdfOptions = new WebMarkupContainer("pdfOptions");
         pdfOptions.setOutputMarkupPlaceholderTag(true);
@@ -106,6 +110,10 @@ public class BulkExportDialog extends AbstractDialog<String> {
         metadataOption.add(new AjaxCheckBox("includeMetadata", new PropertyModel<>(this, "includeMetadata")) {
             @Override protected void onUpdate(final AjaxRequestTarget t) { }
         });
+
+        final WebMarkupContainer largeExportNotice = new WebMarkupContainer("largeExportNotice");
+        largeExportNotice.setVisible(documentCount >= BulkExportService.MAX_DOCUMENTS);
+        add(largeExportNotice);
 
         final WebMarkupContainer pdfCapWarning = new WebMarkupContainer("pdfCapWarning");
         pdfCapWarning.setOutputMarkupPlaceholderTag(true);
@@ -155,7 +163,8 @@ public class BulkExportDialog extends AbstractDialog<String> {
                 + "&fontSize=" + fontSize
                 + "&includeHeaders=" + includeHeaders
                 + "&quoteAll=" + quoteAll
-                + "&includeMetadata=" + includeMetadata;
+                + "&includeMetadata=" + includeMetadata
+                + "&zipTabular=" + zipTabular;
         RequestCycle.get().find(AjaxRequestTarget.class)
                 .ifPresent(t -> t.appendJavaScript("window.location.href = '" + url + "';"));
         log.info("Triggering bulk export download: format={}, documents in session", format);

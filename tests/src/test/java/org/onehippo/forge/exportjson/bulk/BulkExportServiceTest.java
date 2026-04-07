@@ -36,9 +36,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onehippo.forge.exportjson.repository.bulk.BulkExportOptions;
 import org.onehippo.forge.exportjson.repository.bulk.BulkExportService;
+import org.onehippo.forge.exportjson.repository.workflow.ExportHtmlWorkflow;
 import org.onehippo.forge.exportjson.repository.workflow.ExportJsonWorkflow;
 import org.onehippo.forge.exportjson.repository.workflow.ExportPdfWorkflow;
 import org.onehippo.forge.exportjson.repository.workflow.ExportTabularWorkflow;
+import org.onehippo.forge.exportjson.repository.workflow.ExportXmlWorkflow;
 
 public class BulkExportServiceTest {
 
@@ -243,6 +245,158 @@ public class BulkExportServiceTest {
 
         new BulkExportService(mockWorkflowManager, mockSession)
                 .exportAsMergedPdf(tooMany, BulkExportOptions.defaults());
+    }
+
+    // --- exportAsZipToStream ---
+
+    @Test
+    public void testExportAsZipToStreamProducesSameContentAsExportAsZip() throws Exception {
+        // Use JSON format; the streaming and byte[] paths share resolveZipEntryContent.
+        ExportJsonWorkflow mockJsonWf1 = createMock(ExportJsonWorkflow.class);
+        ExportJsonWorkflow mockJsonWf2 = createMock(ExportJsonWorkflow.class);
+
+        expect(mockSession.getNodeByIdentifier("id-1")).andReturn(mockNode1).times(2);
+        expect(mockNode1.getName()).andReturn("doc-one").times(2);
+        expect(mockWorkflowManager.getWorkflow("exportjson", mockNode1)).andReturn(mockJsonWf1).times(2);
+        expect(mockJsonWf1.exportJsonDocument("id-1")).andReturn("{\"a\":1}").times(2);
+
+        expect(mockSession.getNodeByIdentifier("id-2")).andReturn(mockNode2).times(2);
+        expect(mockNode2.getName()).andReturn("doc-two").times(2);
+        expect(mockWorkflowManager.getWorkflow("exportjson", mockNode2)).andReturn(mockJsonWf2).times(2);
+        expect(mockJsonWf2.exportJsonDocument("id-2")).andReturn("{\"b\":2}").times(2);
+
+        replay(mockWorkflowManager, mockSession, mockNode1, mockNode2, mockJsonWf1, mockJsonWf2);
+
+        BulkExportService service = new BulkExportService(mockWorkflowManager, mockSession);
+        List<String> ids = List.of("id-1", "id-2");
+
+        byte[] fromByteArray = service.exportAsZip(ids, "json", BulkExportOptions.defaults());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        service.exportAsZipToStream(ids, "json", BulkExportOptions.defaults(), baos);
+        byte[] fromStream = baos.toByteArray();
+
+        assertEquals("Entry count must match", readZipEntryNames(fromByteArray).size(),
+                readZipEntryNames(fromStream).size());
+        assertEquals("Entry names must match", readZipEntryNames(fromByteArray),
+                readZipEntryNames(fromStream));
+
+        verify(mockWorkflowManager, mockSession, mockNode1, mockNode2, mockJsonWf1, mockJsonWf2);
+    }
+
+    @Test
+    public void testExportAsZipToStreamEmptyListProducesEmptyZip() throws Exception {
+        replay(mockWorkflowManager, mockSession);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        new BulkExportService(mockWorkflowManager, mockSession)
+                .exportAsZipToStream(List.of(), "json", BulkExportOptions.defaults(), baos);
+
+        assertEquals("Empty ZIP should have no entries", 0, readZipEntryNames(baos.toByteArray()).size());
+        verify(mockWorkflowManager, mockSession);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testExportAsZipToStreamThrowsWhenExceedingCap() throws Exception {
+        List<String> tooMany = new ArrayList<>();
+        for (int i = 0; i < 501; i++) { tooMany.add("id-" + i); }
+        replay(mockWorkflowManager, mockSession);
+
+        new BulkExportService(mockWorkflowManager, mockSession)
+                .exportAsZipToStream(tooMany, "json", BulkExportOptions.defaults(), new ByteArrayOutputStream());
+    }
+
+    // --- ZIP sub-formats ---
+
+    @Test
+    public void testExportAsZipWithCsvSubFormatCallsCsvWorkflow() throws Exception {
+        ExportTabularWorkflow mockWf = createMock(ExportTabularWorkflow.class);
+        expect(mockSession.getNodeByIdentifier("id-1")).andReturn(mockNode1);
+        expect(mockNode1.getName()).andReturn("my-doc");
+        expect(mockWorkflowManager.getWorkflow("exportcsv", mockNode1)).andReturn(mockWf);
+        expect(mockWf.exportTabularDocument("id-1", "csv", true, false)).andReturn("col,val\n");
+        replay(mockWorkflowManager, mockSession, mockNode1, mockWf);
+
+        byte[] zip = new BulkExportService(mockWorkflowManager, mockSession)
+                .exportAsZip(List.of("id-1"), "csv", BulkExportOptions.defaults());
+
+        assertTrue("ZIP entry should be .csv", readZipEntryNames(zip).contains("my-doc.csv"));
+        verify(mockWorkflowManager, mockSession, mockNode1, mockWf);
+    }
+
+    @Test
+    public void testExportAsZipWithTsvSubFormatCallsTsvWorkflow() throws Exception {
+        ExportTabularWorkflow mockWf = createMock(ExportTabularWorkflow.class);
+        expect(mockSession.getNodeByIdentifier("id-1")).andReturn(mockNode1);
+        expect(mockNode1.getName()).andReturn("my-doc");
+        expect(mockWorkflowManager.getWorkflow("exporttsv", mockNode1)).andReturn(mockWf);
+        expect(mockWf.exportTabularDocument("id-1", "tsv", true, false)).andReturn("col\tval\n");
+        replay(mockWorkflowManager, mockSession, mockNode1, mockWf);
+
+        byte[] zip = new BulkExportService(mockWorkflowManager, mockSession)
+                .exportAsZip(List.of("id-1"), "tsv", BulkExportOptions.defaults());
+
+        assertTrue("ZIP entry should be .tsv", readZipEntryNames(zip).contains("my-doc.tsv"));
+        verify(mockWorkflowManager, mockSession, mockNode1, mockWf);
+    }
+
+    @Test
+    public void testExportAsZipWithXmlSubFormatCallsXmlWorkflow() throws Exception {
+        ExportXmlWorkflow mockWf = createMock(ExportXmlWorkflow.class);
+        expect(mockSession.getNodeByIdentifier("id-1")).andReturn(mockNode1);
+        expect(mockNode1.getName()).andReturn("my-doc");
+        expect(mockWorkflowManager.getWorkflow("exportxml", mockNode1)).andReturn(mockWf);
+        expect(mockWf.exportXmlDocument("id-1", true, true, true)).andReturn("<doc/>");
+        replay(mockWorkflowManager, mockSession, mockNode1, mockWf);
+
+        byte[] zip = new BulkExportService(mockWorkflowManager, mockSession)
+                .exportAsZip(List.of("id-1"), "xml", BulkExportOptions.defaults());
+
+        assertTrue("ZIP entry should be .xml", readZipEntryNames(zip).contains("my-doc.xml"));
+        verify(mockWorkflowManager, mockSession, mockNode1, mockWf);
+    }
+
+    @Test
+    public void testExportAsZipWithHtmlSubFormatCallsHtmlWorkflow() throws Exception {
+        ExportHtmlWorkflow mockWf = createMock(ExportHtmlWorkflow.class);
+        expect(mockSession.getNodeByIdentifier("id-1")).andReturn(mockNode1);
+        expect(mockNode1.getName()).andReturn("my-doc");
+        expect(mockWorkflowManager.getWorkflow("exporthtml", mockNode1)).andReturn(mockWf);
+        expect(mockWf.exportHtmlDocument("id-1", true, true)).andReturn("<html/>");
+        replay(mockWorkflowManager, mockSession, mockNode1, mockWf);
+
+        byte[] zip = new BulkExportService(mockWorkflowManager, mockSession)
+                .exportAsZip(List.of("id-1"), "html", BulkExportOptions.defaults());
+
+        assertTrue("ZIP entry should be .html", readZipEntryNames(zip).contains("my-doc.html"));
+        verify(mockWorkflowManager, mockSession, mockNode1, mockWf);
+    }
+
+    @Test
+    public void testExportAsZipWithPdfSubFormatCallsPdfWorkflow() throws Exception {
+        ExportPdfWorkflow mockWf = createMock(ExportPdfWorkflow.class);
+        expect(mockSession.getNodeByIdentifier("id-1")).andReturn(mockNode1);
+        expect(mockNode1.getName()).andReturn("my-doc");
+        expect(mockWorkflowManager.getWorkflow("exportpdf", mockNode1)).andReturn(mockWf);
+        expect(mockWf.exportPdfDocument("id-1", "A4", "portrait", "medium", true))
+                .andReturn(createMinimalPdf());
+        replay(mockWorkflowManager, mockSession, mockNode1, mockWf);
+
+        byte[] zip = new BulkExportService(mockWorkflowManager, mockSession)
+                .exportAsZip(List.of("id-1"), "pdf", BulkExportOptions.defaults());
+
+        assertTrue("ZIP entry should be .pdf", readZipEntryNames(zip).contains("my-doc.pdf"));
+        verify(mockWorkflowManager, mockSession, mockNode1, mockWf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testExportAsZipUnknownFormatThrows() throws Exception {
+        expect(mockSession.getNodeByIdentifier("id-1")).andReturn(mockNode1);
+        expect(mockNode1.getName()).andReturn("my-doc");
+        replay(mockWorkflowManager, mockSession, mockNode1);
+
+        new BulkExportService(mockWorkflowManager, mockSession)
+                .exportAsZip(List.of("id-1"), "docx", BulkExportOptions.defaults());
     }
 
     // --- Helpers ---

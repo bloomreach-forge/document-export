@@ -146,6 +146,18 @@
             cursor: pointer;
         }
 
+        /* ── Large-export info notice ─────────────────────── */
+        .bxd .bxd-info {
+            margin: 0 0 14px;
+            padding: 8px 12px;
+            background: #fffbe6;
+            border-left: 3px solid #e6a817;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #5c4400;
+            line-height: 1.5;
+        }
+
         /* ── PDF cap warning ──────────────────────────────── */
         .bxd .bxd-warning {
             margin-top: 10px;
@@ -176,6 +188,13 @@
 
         <p wicket:id="documentCount" class="bxd-count"></p>
 
+        <!-- Large-export notice (shown when doc count hits the 500 cap) -->
+        <div wicket:id="largeExportNotice" class="bxd-info">
+            Exporting 500+ documents at once may be slow and memory-intensive.
+            For large-scale content migration, consider the
+            <strong>EXIM plugin</strong> instead.
+        </div>
+
         <span class="bxd-label">Format</span>
         <div class="bxd-format-wrap">
             <span wicket:id="format"></span>
@@ -190,6 +209,10 @@
             <div class="bxd-check">
                 <input type="checkbox" wicket:id="quoteAll" id="quoteAll"/>
                 <label for="quoteAll">Quote all values</label>
+            </div>
+            <div class="bxd-check">
+                <input type="checkbox" wicket:id="zipTabular" id="zipTabular"/>
+                <label for="zipTabular">Export as individual files (ZIP)</label>
             </div>
         </div>
 

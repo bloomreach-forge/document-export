@@ -84,7 +84,8 @@ public class BulkExportDownloadPage extends WebPage {
                 parameters.get("fontSize").toString("medium"),
                 parameters.get("includeHeaders").toBoolean(true),
                 parameters.get("quoteAll").toBoolean(false),
-                parameters.get("includeMetadata").toBoolean(true));
+                parameters.get("includeMetadata").toBoolean(true),
+                parameters.get("zipTabular").toBoolean(false));
 
         try {
             final Session jcrSession = ((UserSession) wicketSession).getJcrSession();
@@ -95,15 +96,27 @@ public class BulkExportDownloadPage extends WebPage {
             final ResourceStreamRequestHandler handler;
             switch (format) {
                 case "csv" -> {
-                    handler = new ResourceStreamRequestHandler(
-                            new StringResourceStream(service.exportAsCsv(nodeIds, options), "text/csv"),
-                            "bulk-export.csv");
+                    if (options.zipTabular()) {
+                        handler = new ResourceStreamRequestHandler(
+                                tempFileZipStream(service, nodeIds, "csv", options),
+                                "bulk-export-csv.zip");
+                    } else {
+                        handler = new ResourceStreamRequestHandler(
+                                new StringResourceStream(service.exportAsCsv(nodeIds, options), "text/csv"),
+                                "bulk-export.csv");
+                    }
                 }
                 case "tsv" -> {
-                    handler = new ResourceStreamRequestHandler(
-                            new StringResourceStream(service.exportAsTsv(nodeIds, options),
-                                    "text/tab-separated-values"),
-                            "bulk-export.tsv");
+                    if (options.zipTabular()) {
+                        handler = new ResourceStreamRequestHandler(
+                                tempFileZipStream(service, nodeIds, "tsv", options),
+                                "bulk-export-tsv.zip");
+                    } else {
+                        handler = new ResourceStreamRequestHandler(
+                                new StringResourceStream(service.exportAsTsv(nodeIds, options),
+                                        "text/tab-separated-values"),
+                                "bulk-export.tsv");
+                    }
                 }
                 case "json", "xml", "html" -> {
                     handler = new ResourceStreamRequestHandler(
