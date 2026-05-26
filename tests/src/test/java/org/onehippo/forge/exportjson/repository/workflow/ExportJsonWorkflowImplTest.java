@@ -248,6 +248,62 @@ public class ExportJsonWorkflowImplTest {
     }
 
     @Test
+    public void testExportJsonDocumentWithEmptyMultiValuedProperty_omitsPropertyFromOutput() throws Exception {
+        Property mockProperty = createMock(Property.class);
+        Value[] emptyValues = {};
+
+        expect(mockContext.getInternalWorkflowSession()).andReturn(mockSession);
+        expect(mockSession.getNodeByIdentifier("test-id")).andReturn(mockDocument);
+        expect(mockDocument.getPath()).andReturn("/content/documents/test");
+        expect(mockDocument.getName()).andReturn("test");
+        expect(mockDocument.getPrimaryNodeType()).andReturn(mockNodeType);
+        expect(mockNodeType.getName()).andReturn("content:document");
+        expect(mockDocument.getProperties()).andReturn(mockPropertyIterator);
+        expect(mockPropertyIterator.hasNext()).andReturn(true).andReturn(false);
+        expect(mockPropertyIterator.nextProperty()).andReturn(mockProperty);
+        expect(mockProperty.getName()).andReturn("content:tags");
+        expect(mockProperty.isMultiple()).andReturn(true);
+        expect(mockProperty.getValues()).andReturn(emptyValues);
+        expect(mockDocument.hasProperty("jcr:created")).andReturn(false);
+        expect(mockDocument.hasProperty("jcr:lastModified")).andReturn(false);
+        expect(mockDocument.hasProperty("hippo:author")).andReturn(false);
+        replay(mockContext, mockSession, mockDocument, mockNodeType, mockPropertyIterator, mockProperty);
+
+        ExportJsonWorkflowImpl workflow = createWorkflowWithMocks(mockContext);
+        String json = workflow.exportJsonDocument("test-id");
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(json);
+
+        assertFalse("Empty multi-valued property should be omitted from output",
+            root.get("properties").has("content:tags"));
+    }
+
+    @Test
+    public void testExportJsonDocumentMetadataRepositoryException_metadataBlockIsEmptyButNoThrow() throws Exception {
+        expect(mockContext.getInternalWorkflowSession()).andReturn(mockSession);
+        expect(mockSession.getNodeByIdentifier("test-id")).andReturn(mockDocument);
+        expect(mockDocument.getPath()).andReturn("/content/documents/test");
+        expect(mockDocument.getName()).andReturn("test");
+        expect(mockDocument.getPrimaryNodeType()).andReturn(mockNodeType);
+        expect(mockNodeType.getName()).andReturn("content:document");
+        expect(mockDocument.getProperties()).andReturn(mockPropertyIterator);
+        expect(mockPropertyIterator.hasNext()).andReturn(false);
+        expect(mockDocument.hasProperty("jcr:created")).andThrow(new RepositoryException("Metadata access failed"));
+        replay(mockContext, mockSession, mockDocument, mockNodeType, mockPropertyIterator);
+
+        ExportJsonWorkflowImpl workflow = createWorkflowWithMocks(mockContext);
+        String json = workflow.exportJsonDocument("test-id");
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(json);
+        JsonNode metadata = root.get("metadata");
+
+        assertNotNull("Metadata node should still be present", metadata);
+        assertFalse("Metadata should be empty when RepositoryException is thrown", metadata.fields().hasNext());
+    }
+
+    @Test
     public void testInvokeWorkflowIsNoOp() throws Exception {
         ExportJsonWorkflowImpl workflow = new ExportJsonWorkflowImpl();
         // Should not throw exception
