@@ -61,8 +61,20 @@
     </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -219,7 +231,6 @@
       <groupId>org.bloomreach.forge.exportjson</groupId>
       <artifactId>exportjson-repository</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -234,7 +245,7 @@
         <configuration>
           <reuseForks>false</reuseForks>
           <workingDirectory>${project.build.directory}</workingDirectory>
-          <!--<systemProperties>--><!--<property>--><!--<name>testrepopath</name>--><!--<value>${project.build.directory}/testrepository</value>--><!--</property>--><!--</systemProperties>-->
+          <argLine>@{argLine}</argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -246,5 +257,31 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>coverage</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>report-aggregate</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>report-aggregate</goal>
+                </goals>
+                <configuration>
+                  <includeCurrentProject>true</includeCurrentProject>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
